@@ -37,8 +37,9 @@ public class AspectJAdvice {
 //    @Before("@within(newAnnotation)")
     @Before("aspectJController()")
     public void doBefore(JoinPoint joinPoint) {
+        String classNameFull = joinPoint.getTarget().getClass().getName();
+        String className = classNameFull.substring((classNameFull.lastIndexOf(".")+1),classNameFull.length());
         String actionName = joinPoint.getSignature().getName();
-        String className = joinPoint.getTarget().getClass().getName();
         System.out.println(className+"+++"+actionName);
 
         Object[] args = joinPoint.getArgs();
@@ -52,13 +53,16 @@ public class AspectJAdvice {
         // 业务逻辑最好拿到service里面封装一下
         UserInfo userInfo = userInfoMapper.selectById(json.getString("userId"));
         if(userInfo != null){
-            if(userInfo.getUserRole() == 1){
+            System.out.println(userInfo.getUserRole());
+            if(userInfo.getUserRole() == 1 && !"UserController".equals(className)){
                 // 管理员权限
-                // throw new AuthorityException("你的权限不足controll！");
-            }else if(userInfo.getUserRole() == 1){
+                 throw new AuthorityException("你的权限不足！");
+            }else if(userInfo.getUserRole() == 2 && !className.equals("xxxController")){
                 // 农户权限
-            }else if(userInfo.getUserRole() == 2){
+                throw new AuthorityException("你的权限不足！");
+            }else if(userInfo.getUserRole() == 3 && !className.equals("xxxController")){
                 // 顾客权限
+                throw new AuthorityException("你的权限不足！");
             }
         }
     }
