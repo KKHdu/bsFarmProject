@@ -13,26 +13,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/business")
 @AllArgsConstructor
-public class UserController {
+public class BusinessController {
 
     private UserMapper userMapper;
 
     private GoodsInfoMapper goodsInfoMapper;
 
-//    swagger
-//    @ApiOperation(value = "接口的功能介绍",notes = "提示接口使用者注意事项",httpMethod = "GET")
-//    @ApiImplicitParam(dataType = "string",name = "name",value = "姓名",required = true)
-    @RequestMapping(value = "/login")
-//    @NewAnnotation  // 自定义切面注解
-    public JSONObject login(@RequestBody JSONObject params) {
+    @RequestMapping(value = "/goodsInsert")
+//    @NewAnnotation
+    public JSONObject goodsInsert(@RequestBody GoodsInfo params) {
         JSONObject jsonObject = new JSONObject();
-        String userId = params.getString("userId");
         QueryWrapper<User> wrapper = new QueryWrapper<>();
-        wrapper.eq("user_Id",userId);
-        User user = userMapper.selectOne(wrapper);
-        jsonObject.put("返回", user.getCnDes());
+        int res = goodsInfoMapper.insert(params);
+        jsonObject.put("插入成功与否：", res);
         return jsonObject;
     }
 }

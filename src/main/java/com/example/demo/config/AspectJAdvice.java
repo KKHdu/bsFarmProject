@@ -54,13 +54,12 @@ public class AspectJAdvice {
         UserInfo userInfo = userInfoMapper.selectById(json.getString("userId"));
         if(userInfo != null){
             System.out.println(userInfo.getUserRole());
-            if(userInfo.getUserRole() == 1 && !"UserController".equals(className)){
+            if(userInfo.getUserRole() == 1){
                 // 管理员权限
-                 throw new AuthorityException("你的权限不足！");
-            }else if(userInfo.getUserRole() == 2 && !className.equals("xxxController")){
+            }else if(userInfo.getUserRole() == 2 && !className.equals("BusinessController")){
                 // 农户权限
                 throw new AuthorityException("你的权限不足！");
-            }else if(userInfo.getUserRole() == 3 && !className.equals("xxxController")){
+            }else if(userInfo.getUserRole() == 3 && !className.equals("UserController")){
                 // 顾客权限
                 throw new AuthorityException("你的权限不足！");
             }
