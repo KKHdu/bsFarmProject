@@ -6,27 +6,24 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 @Data
-@TableName("farm_collection")
-public class Collection {
+@TableName("farm_approve")
+public class Approve {
 
     @TableId
-    @TableField("collection_id")
-    private int collectionId;
+    @TableField("approve_id")
+    private int approveId;
+
+    @TableField("approve_admin")
+    private String approveAdmin;
 
     @TableField("goods_id")
     private int goodsId;
 
-    @TableField("goodsName")
-    private String goodsName;
+    @TableField("approve_result")
+    private String approveResult;
 
-    @TableField("user_id")
-    private int userId;
-
-    @TableField("user_name")
-    private int userName;
-
-    @TableField("collection_status")
-    private int collectionStatus;
+    @TableField("approve_desc")
+    private String approveDesc;
 
     @TableField("insert_time")
     private long insertTime;

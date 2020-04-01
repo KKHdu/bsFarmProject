@@ -12,13 +12,13 @@ public class DealInfo {
 
     @TableId
     @TableField("deal_id")
-    private String dealId;
+    private int dealId;
 
     @TableField("deal_user_id_in")
-    private String dealUserIdIn;
+    private int dealUserIdIn;
 
     @TableField("deal_user_id_out")
-    private String dealUserIdOut;
+    private int dealUserIdOut;
 
     @TableField("deal_user_name_in")
     private String dealUserNameIn;
@@ -27,10 +27,10 @@ public class DealInfo {
     private String dealUserNameOut;
 
     @TableField("deal_price")
-    private String dealPrice;
+    private double dealPrice;
 
     @TableField("deal_status")
-    private String dealStatus;
+    private int dealStatus;
 
     @TableField(value="insert_time", fill= FieldFill.INSERT)
     private Long insertTime;

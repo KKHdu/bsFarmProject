@@ -40,7 +40,7 @@ public class AspectJAdvice {
         String classNameFull = joinPoint.getTarget().getClass().getName();
         String className = classNameFull.substring((classNameFull.lastIndexOf(".")+1),classNameFull.length());
         String actionName = joinPoint.getSignature().getName();
-        System.out.println(className+"+++"+actionName);
+//        System.out.println(className+"+++"+actionName);
 
         Object[] args = joinPoint.getArgs();
         JSONObject json = new JSONObject();
@@ -54,13 +54,13 @@ public class AspectJAdvice {
         UserInfo userInfo = userInfoMapper.selectById(json.getString("userId"));
         if(userInfo != null){
             System.out.println(userInfo.getUserRole());
-            if(userInfo.getUserRole() == 1){
+            if(userInfo.getUserRole() == 1 || "CommonController".equals(className)){
                 // 管理员权限
-            }else if(userInfo.getUserRole() == 2 && !className.equals("BusinessController")){
+            }else if(userInfo.getUserRole() == 2 && "BusinessController".equals(className)){
                 // 农户权限
-                throw new AuthorityException("你的权限不足！");
-            }else if(userInfo.getUserRole() == 3 && !className.equals("UserController")){
+            }else if(userInfo.getUserRole() == 3 && "UserController".equals(className)){
                 // 顾客权限
+            }else{
                 throw new AuthorityException("你的权限不足！");
             }
         }

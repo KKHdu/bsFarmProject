@@ -21,6 +21,7 @@ public class UserController {
 
     private GoodsInfoMapper goodsInfoMapper;
 
+    /**
 //    swagger
 //    @ApiOperation(value = "接口的功能介绍",notes = "提示接口使用者注意事项",httpMethod = "GET")
 //    @ApiImplicitParam(dataType = "string",name = "name",value = "姓名",required = true)
@@ -35,4 +36,5 @@ public class UserController {
         jsonObject.put("返回", user.getCnDes());
         return jsonObject;
     }
+    **/
 }
