@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.demo.config.R;
+import com.example.demo.entity.GoodsInfo;
 import com.example.demo.entity.User;
 import com.example.demo.entity.UserInfo;
 import com.example.demo.mapper.GoodsInfoMapper;
@@ -22,6 +23,7 @@ import java.util.List;
 public class CommonController {
 
     private UserInfoMapper userInfoMapper;
+    private GoodsInfoMapper goodsInfoMapper;
 
     @ApiOperation(value = "用户登陆接口",notes = "注意参数",httpMethod = "POST")
     @RequestMapping(value = "/login")
@@ -56,12 +58,20 @@ public class CommonController {
         }
     }
 
-    @ApiOperation(value = "用户更新接口",notes = "注意参数",httpMethod = "POST")
-    @RequestMapping(value = "/userAdd")
-    public R userUpdate(@RequestBody UserInfo params) {
-        if(params.getUserId() <= 0){
-            return R.error("用户名为空，新增失败");
+    @ApiOperation(value = "单个用户查询接口",notes = "注意参数",httpMethod = "POST")
+    @RequestMapping(value = "/getUserInfoById")
+    public R getUserInfoById(@RequestBody int params) {
+        UserInfo userInfo = userInfoMapper.selectById(params);
+        if(userInfo != null){
+            return R.success("用户查询成功",userInfo);
+        }else{
+            return R.error("用户更新失败");
         }
+    }
+
+    @ApiOperation(value = "用户更新接口",notes = "注意参数",httpMethod = "POST")
+    @RequestMapping(value = "/userUpdate")
+    public R userUpdate(@RequestBody UserInfo params) {
         QueryWrapper<UserInfo> wrapper = new QueryWrapper<>();
         int num = userInfoMapper.updateById(params);
         if(num >= 0){
@@ -69,5 +79,40 @@ public class CommonController {
         }else{
             return R.error("用户更新失败");
         }
+    }
+
+    @ApiOperation(value = "用户删除接口",notes = "注意参数",httpMethod = "POST")
+    @RequestMapping(value = "/userDel")
+    public R userDel(@RequestBody int params) {
+        int num = userInfoMapper.deleteById(params);
+        if(num >= 0){
+            return R.success("用户删除成功");
+        }else{
+            return R.error("用户删除失败");
+        }
+    }
+
+    @ApiOperation(value = "农产品列表查询接口",notes = "注意参数",httpMethod = "POST")
+    @RequestMapping(value = "/getGoodsList")
+    public R getGoodsList(@RequestBody int params) {
+        QueryWrapper<GoodsInfo> wrapper = new QueryWrapper<>();
+        wrapper.eq("user_id",params);
+        List<GoodsInfo> list = goodsInfoMapper.selectList(wrapper);
+
+        return R.success("商品列表查询成功",list);
+    }
+
+    @ApiOperation(value = "农产品信息查询接口",notes = "注意参数",httpMethod = "POST")
+    @RequestMapping(value = "/getGoodsInfo")
+    public R getGoodsInfo(@RequestBody int params) {
+        GoodsInfo goodsInfo = goodsInfoMapper.selectById(params);
+        return R.success("农产品信息查询成功",goodsInfo);
+    }
+
+    @ApiOperation(value = "农产品信息删除接口",notes = "注意参数",httpMethod = "POST")
+    @RequestMapping(value = "/goodsInfoDel")
+    public R goodsInfoDel(@RequestBody int params) {
+        int num = goodsInfoMapper.deleteById(params);
+        return R.success("农产品信息删除成功");
     }
 }
