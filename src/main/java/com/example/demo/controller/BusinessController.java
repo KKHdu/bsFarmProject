@@ -8,6 +8,7 @@ import com.example.demo.entity.GoodsInfo;
 import com.example.demo.entity.User;
 import com.example.demo.mapper.GoodsInfoMapper;
 import com.example.demo.mapper.UserMapper;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,7 @@ public class BusinessController {
 
     private GoodsInfoMapper goodsInfoMapper;
 
+    @ApiOperation(value = "商品插入接口",notes = "注意参数",httpMethod = "POST")
     @RequestMapping(value = "/goodsInsert")
 //    @NewAnnotation
     public R goodsInsert(@RequestBody GoodsInfo params) {
@@ -33,5 +35,10 @@ public class BusinessController {
         }catch (Exception e){
             return R.error(e.toString());
         }
+    }
+
+    @ApiOperation(value = "商品查询接口",notes = "注意参数",httpMethod = "POST")
+    public R goodsSelect(@RequestBody JSONObject params){
+        return R.success("");
     }
 }
