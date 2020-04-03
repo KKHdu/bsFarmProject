@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/user")
 @AllArgsConstructor
-public class UserController {
+public class CustomController {
 
     private UserMapper userMapper;
 
@@ -35,6 +35,8 @@ public class UserController {
         User user = userMapper.selectOne(wrapper);
         jsonObject.put("返回", user.getCnDes());
         return jsonObject;
+
+
     }
     **/
 }

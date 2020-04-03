@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/common")
 @AllArgsConstructor
@@ -28,7 +30,7 @@ public class CommonController {
         String userPass = params.getString("userPass");
         QueryWrapper<UserInfo> wrapper = new QueryWrapper<>();
         wrapper.select(UserInfo.class,info -> info.getColumn().equals("user_id") || info.getColumn().equals("user_name"))
-                .eq("user_Id",userName)
+                .eq("user_name",userName)
                 .eq("userPass",userPass);
 
         UserInfo userInfo = userInfoMapper.selectOne(wrapper);
