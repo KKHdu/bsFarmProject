@@ -46,27 +46,6 @@ public class CustomController {
 
     }
 
-    @ApiOperation(value = "根据用户ID查询订单列表信息",notes = "参数为userId和userRole，都为int类型",httpMethod = "POST")
-    @RequestMapping(value = "/getDealList")
-    public R geOrderList(@RequestBody JSONObject params) {
-        int userId = params.getInteger("userId");
-        int userRole = params.getInteger("userRole");
-        QueryWrapper<DealInfo> wrapper = new QueryWrapper<>();
-        if(userRole == 3){
-            // 表示为顾客查询订单
-            wrapper.eq("deal_user_id_in",userId);
-        }else {
-            // 表示为农户查询订单
-            wrapper.eq("deal_user_id_out",userId);
-        }
-        List<DealInfo> dealList = dealInfoMapper.selectList(wrapper);
-        if(dealList != null){
-            return R.success("数据显示成功",dealList);
-        }else{
-            return R.error("数据显示失败");
-        }
-    }
-
     @ApiOperation(value = "查询购物车列表",notes = "注意参数",httpMethod = "POST")
     @RequestMapping(value = "/getCollectionInfo")
     public R getCollectionInfo(@RequestBody int params) {

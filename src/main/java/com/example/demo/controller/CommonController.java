@@ -3,9 +3,11 @@ package com.example.demo.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.demo.config.R;
+import com.example.demo.entity.DealInfo;
 import com.example.demo.entity.GoodsInfo;
 import com.example.demo.entity.User;
 import com.example.demo.entity.UserInfo;
+import com.example.demo.mapper.DealInfoMapper;
 import com.example.demo.mapper.GoodsInfoMapper;
 import com.example.demo.mapper.UserInfoMapper;
 import com.example.demo.mapper.UserMapper;
@@ -23,7 +25,10 @@ import java.util.List;
 public class CommonController {
 
     private UserInfoMapper userInfoMapper;
+
     private GoodsInfoMapper goodsInfoMapper;
+
+    private DealInfoMapper dealInfoMapper;
 
     @ApiOperation(value = "用户登陆接口",notes = "注意参数",httpMethod = "POST")
     @RequestMapping(value = "/login")
@@ -68,6 +73,17 @@ public class CommonController {
         }
     }
 
+    @ApiOperation(value = "模糊查询用户接口",notes = "注意参数",httpMethod = "POST")
+    @RequestMapping(value = "/getUserInfoByName")
+    public R getUserInfoByName(@RequestBody JSONObject params) {
+        UserInfo userInfo = userInfoMapper.selectById(params.getString("userName"));
+        if(userInfo != null){
+            return R.success("用户查询成功",userInfo);
+        }else{
+            return R.error("用户更新失败");
+        }
+    }
+
     @ApiOperation(value = "用户更新接口",notes = "注意参数",httpMethod = "POST")
     @RequestMapping(value = "/userUpdate")
     public R userUpdate(@RequestBody UserInfo params) {
@@ -93,7 +109,10 @@ public class CommonController {
 
     @ApiOperation(value = "农产品列表查询接口",notes = "注意参数",httpMethod = "POST")
     @RequestMapping(value = "/getGoodsList")
-    public R getGoodsList(@RequestBody int userId, int userRole, String goodsName) {
+    public R getGoodsList(@RequestBody JSONObject params) {
+        String userId = params.getString("userId");
+        String goodsName = params.getString("goodsName");
+        int userRole = userInfoMapper.selectById(userId).getUserRole();
         QueryWrapper<GoodsInfo> wrapper = new QueryWrapper<>();
         if(userRole== 2 && goodsName == null){
             wrapper.eq("user_id",userId);
@@ -126,25 +145,26 @@ public class CommonController {
 //        return R.success("农产品信息查询成功",goodsInfo);
 //    }
 
-    @ApiOperation(value = "农产品信息删除接口",notes = "注意参数",httpMethod = "POST")
-    @RequestMapping(value = "/goodsInfoDel")
-    public R goodsInfoDel(@RequestBody int params) {
-        int num = goodsInfoMapper.deleteById(params);
-        if(num > 0){
-            return R.success("农产品信息删除成功");
+
+    @ApiOperation(value = "根据用户ID查询订单列表信息",notes = "参数为userId和userRole，都为int类型",httpMethod = "POST")
+    @RequestMapping(value = "/getDealList")
+    public R geOrderList(@RequestBody JSONObject params) {
+        int userId = params.getInteger("userId");
+        int userRole = params.getInteger("userRole");
+        QueryWrapper<DealInfo> wrapper = new QueryWrapper<>();
+        if(userRole == 3){
+            // 表示为顾客查询订单
+            wrapper.eq("deal_user_id_in",userId);
+        }else {
+            // 表示为农户查询订单
+            wrapper.eq("deal_user_id_out",userId);
+        }
+        List<DealInfo> dealList = dealInfoMapper.selectList(wrapper);
+        if(dealList != null){
+            return R.success("数据显示成功",dealList);
         }else{
-            return R.error("农产品信息删除失败");
+            return R.error("数据显示失败");
         }
     }
 
-    @ApiOperation(value = "农产品信息更新接口",notes = "注意参数",httpMethod = "POST")
-    @RequestMapping(value = "/goodsInfoUpdate")
-    public R goodsInfoUpdate(@RequestBody GoodsInfo params) {
-        int num = goodsInfoMapper.updateById(params);
-        if(num > 0){
-            return R.success("农产品信息更新成功");
-        }else{
-            return R.error("农产品信息更新失败");
-        }
-    }
 }
