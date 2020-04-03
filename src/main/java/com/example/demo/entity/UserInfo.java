@@ -18,7 +18,7 @@ public class UserInfo {
     private int userAge;
 
     @TableField("user_sex")
-    private int userSex;
+    private String userSex;
 
     @TableField("user_phone")
     private String userPhone;

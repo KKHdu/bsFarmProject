@@ -56,7 +56,7 @@ public class AspectJAdvice {
             System.out.println(userInfo.getUserRole());
             if(userInfo.getUserRole() == 1 || "CommonController".equals(className)){
                 // 管理员权限
-            }else if(userInfo.getUserRole() == 2 && "BusinessController".equals(className)){
+            }else if(userInfo.getUserRole() == 2 && "BusinessController".equals(className) && "AdminController".equals(className)){
                 // 农户权限
             }else if(userInfo.getUserRole() == 3 && "UserController".equals(className)){
                 // 顾客权限

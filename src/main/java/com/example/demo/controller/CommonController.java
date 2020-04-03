@@ -46,7 +46,7 @@ public class CommonController {
     @ApiOperation(value = "用户新增接口",notes = "注意参数",httpMethod = "POST")
     @RequestMapping(value = "/userAdd")
     public R userAdd(@RequestBody UserInfo params) {
-        if(params.getUserName() == null){
+        if(params.getUserName() == ""){
             return R.error("用户名为空，新增失败");
         }
         int num = userInfoMapper.insert(params);
@@ -82,8 +82,8 @@ public class CommonController {
 
     @ApiOperation(value = "用户删除接口",notes = "注意参数",httpMethod = "POST")
     @RequestMapping(value = "/userDel")
-    public R userDel(@RequestBody int params) {
-        int num = userInfoMapper.deleteById(params);
+    public R userDel(@RequestBody JSONObject params) {
+        int num = userInfoMapper.deleteById(params.getString("userId"));
         if(num >= 0){
             return R.success("用户删除成功");
         }else{

@@ -26,7 +26,6 @@ public class AdminController {
     @ApiOperation(value = "获取顾客或农户的信息列表显示接口",notes = "参数为roleType，传2表示农户，3表示顾客",httpMethod = "POST")
     @RequestMapping(value = "/getUserList")
     public R geList(@RequestBody JSONObject params) {
-        System.out.println("ss");
         int roleType = params.getInteger("roleType");
         QueryWrapper<UserInfo> wrapper = new QueryWrapper<>();
         wrapper.select(UserInfo.class,info -> !info.getColumn().equals("user_pass"))

@@ -4,8 +4,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.demo.config.R;
 import com.example.demo.entity.ApproveInfo;
+import com.example.demo.entity.Collection;
 import com.example.demo.entity.DealInfo;
 import com.example.demo.mapper.ApproveInfoMapper;
+import com.example.demo.mapper.CollectionMapper;
 import com.example.demo.mapper.DealInfoMapper;
 
 import io.swagger.annotations.ApiOperation;
@@ -27,9 +29,7 @@ public class CustomController {
 
     private ApproveInfoMapper approveInfoMapper;
 
-    private DealInfo dealInfo;
-
-    private ApproveInfo approveInfo;
+    private CollectionMapper collectionMapper;
 
     @Transactional
     @ApiOperation(value = "订单新增接口",notes = "注意参数",httpMethod = "POST")
@@ -39,8 +39,10 @@ public class CustomController {
             return R.error("顾客用户名为空，新增失败");
         }
         int numOne = dealInfoMapper.insert(params);
+        DealInfo dealInfo = new DealInfo();
         int goodsId = dealInfo.getGoodsId();
 
+        ApproveInfo approveInfo = new ApproveInfo();
         approveInfo.setGoodsId(goodsId);
         int numTwo = approveInfoMapper.insert(approveInfo);
         if(numOne >= 0 && numTwo >=0){
@@ -76,7 +78,20 @@ public class CustomController {
         }else{
             return R.error("数据显示失败");
         }
+    }
 
+    @ApiOperation(value = "查询购物车列表",notes = "注意参数",httpMethod = "POST")
+    @RequestMapping(value = "/getCollectionInfo")
+    public R getCollectionInfo(@RequestBody int params) {
+        List<JSONObject> list = collectionMapper.selectListById(params);
+        return R.success("农产品信息查询成功",list);
+    }
+
+    @ApiOperation(value = "购物车新增",notes = "注意参数",httpMethod = "POST")
+    @RequestMapping(value = "/collectionAdd")
+    public R collectionAdd(@RequestBody Collection params) {
+        int num = collectionMapper.insert(params);
+        return R.success("成功加入购物车");
     }
 
 }
