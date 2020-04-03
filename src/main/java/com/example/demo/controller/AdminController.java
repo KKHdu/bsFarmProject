@@ -24,11 +24,12 @@ public class AdminController {
     private UserInfoMapper userInfoMapper;
 
     @ApiOperation(value = "获取顾客或农户的信息列表显示接口",notes = "参数为roleType，传2表示农户，3表示顾客",httpMethod = "POST")
-    @RequestMapping(value = "/getList")
+    @RequestMapping(value = "/getUserList")
     public R geList(@RequestBody JSONObject params) {
         int roleType = params.getInteger("roleType");
         QueryWrapper<UserInfo> wrapper = new QueryWrapper<>();
-        wrapper.eq("user_role",roleType);
+        wrapper.select(UserInfo.class,info -> !info.getColumn().equals("user_pass"))
+                .eq("user_role",roleType);
         List<UserInfo> customList = userInfoMapper.selectList(wrapper);
         if(customList != null){
             return R.success("数据显示成功",customList);

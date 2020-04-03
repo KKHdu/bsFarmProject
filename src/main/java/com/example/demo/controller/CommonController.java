@@ -31,9 +31,9 @@ public class CommonController {
         String userName = params.getString("userName");
         String userPass = params.getString("userPass");
         QueryWrapper<UserInfo> wrapper = new QueryWrapper<>();
-        wrapper.select(UserInfo.class,info -> info.getColumn().equals("user_id") || info.getColumn().equals("user_name"))
+        wrapper.select(UserInfo.class,info -> info.getColumn().equals("user_id") || info.getColumn().equals("user_name") || info.getColumn().equals("user_role"))
                 .eq("user_name",userName)
-                .eq("userPass",userPass);
+                .eq("user_pass",userPass);
 
         UserInfo userInfo = userInfoMapper.selectOne(wrapper);
         if(userInfo != null){
@@ -113,6 +113,21 @@ public class CommonController {
     @RequestMapping(value = "/goodsInfoDel")
     public R goodsInfoDel(@RequestBody int params) {
         int num = goodsInfoMapper.deleteById(params);
-        return R.success("农产品信息删除成功");
+        if(num > 0){
+            return R.success("农产品信息删除成功");
+        }else{
+            return R.error("农产品信息删除失败");
+        }
+    }
+
+    @ApiOperation(value = "农产品信息更新接口",notes = "注意参数",httpMethod = "POST")
+    @RequestMapping(value = "/goodsInfoUpdate")
+    public R goodsInfoUpdate(@RequestBody GoodsInfo params) {
+        int num = goodsInfoMapper.updateById(params);
+        if(num > 0){
+            return R.success("农产品信息更新成功");
+        }else{
+            return R.error("农产品信息更新失败");
+        }
     }
 }
