@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @TableName("farm_approve")
-public class Approve {
+public class ApproveInfo {
 
     @TableId
     @TableField("approve_id")
