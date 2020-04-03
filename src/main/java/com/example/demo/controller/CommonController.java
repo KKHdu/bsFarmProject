@@ -93,27 +93,38 @@ public class CommonController {
 
     @ApiOperation(value = "农产品列表查询接口",notes = "注意参数",httpMethod = "POST")
     @RequestMapping(value = "/getGoodsList")
-    public R getGoodsList(@RequestBody int params) {
+    public R getGoodsList(@RequestBody int userId, int userRole, String goodsName) {
         QueryWrapper<GoodsInfo> wrapper = new QueryWrapper<>();
-        wrapper.eq("user_id",params);
+        if(userRole== 2 && goodsName == null){
+            wrapper.eq("user_id",userId);
+        }
+        if(userRole== 2 && goodsName != null){
+            wrapper.eq("user_id",userId).like("goods_name", goodsName);
+        }
+        if(userRole== 3 && goodsName != null){
+            wrapper.like("goods_name", goodsName);
+        }
+
         List<GoodsInfo> list = goodsInfoMapper.selectList(wrapper);
 
         return R.success("商品列表查询成功",list);
     }
 
 //    @ApiOperation(value = "农产品信息模糊查询接口",notes = "注意参数",httpMethod = "POST")
-//    @RequestMapping(value = "/getGoodsInfoBy")
+//    @RequestMapping(value = "/getGoodsInfoByName")
+//    public R getGoodsInfoByName(@RequestBody String goodsName) {
+//        QueryWrapper<GoodsInfo> wrapper = new QueryWrapper<>();
+//        wrapper.like("goods_name", goodsName);
+//        List<GoodsInfo> list = goodsInfoMapper.selectList(wrapper);
+//        return R.success("农产品信息查询成功",list);
+//    }
+//
+//    @ApiOperation(value = "农产品信息查询接口",notes = "注意参数",httpMethod = "POST")
+//    @RequestMapping(value = "/getGoodsInfo")
 //    public R getGoodsInfo(@RequestBody int params) {
 //        GoodsInfo goodsInfo = goodsInfoMapper.selectById(params);
 //        return R.success("农产品信息查询成功",goodsInfo);
 //    }
-
-    @ApiOperation(value = "农产品信息查询接口",notes = "注意参数",httpMethod = "POST")
-    @RequestMapping(value = "/getGoodsInfo")
-    public R getGoodsInfo(@RequestBody int params) {
-        GoodsInfo goodsInfo = goodsInfoMapper.selectById(params);
-        return R.success("农产品信息查询成功",goodsInfo);
-    }
 
     @ApiOperation(value = "农产品信息删除接口",notes = "注意参数",httpMethod = "POST")
     @RequestMapping(value = "/goodsInfoDel")
