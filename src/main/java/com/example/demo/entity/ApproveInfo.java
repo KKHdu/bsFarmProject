@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -20,12 +21,12 @@ public class ApproveInfo {
     private int goodsId;
 
     @TableField("approve_result")
-    private String approveResult;
+    private int approveResult;
 
     @TableField("approve_desc")
     private String approveDesc;
 
-    @TableField("insert_time")
+    @TableField(value="insert_time", fill= FieldFill.INSERT)
     private long insertTime;
 
 

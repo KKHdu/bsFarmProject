@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -7,7 +8,7 @@ import lombok.Data;
 
 @Data
 @TableName("farm_collection")
-public class Collection {
+public class CollectionInfo {
 
     @TableId
     @TableField("collection_id")
@@ -28,7 +29,8 @@ public class Collection {
     @TableField("collection_status")
     private int collectionStatus;
 
-    @TableField("insert_time")
+
+    @TableField(value="insert_time", fill= FieldFill.INSERT)
     private long insertTime;
 
 
