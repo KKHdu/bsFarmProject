@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/business")
 @AllArgsConstructor
-public class BusinessController {
+public class FarmerController {
 
     private UserMapper userMapper;
 
