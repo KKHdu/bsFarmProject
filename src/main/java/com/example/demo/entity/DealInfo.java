@@ -14,6 +14,12 @@ public class DealInfo {
     @TableField("deal_id")
     private int dealId;
 
+    @TableField("goods_id")
+    private int goodsId;
+
+    @TableField("goods_count")
+    private int goodsCount;
+
     @TableField("deal_user_id_in")
     private int dealUserIdIn;
 

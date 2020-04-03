@@ -49,7 +49,6 @@ public class CommonController {
         if(params.getUserName() == null){
             return R.error("用户名为空，新增失败");
         }
-        QueryWrapper<UserInfo> wrapper = new QueryWrapper<>();
         int num = userInfoMapper.insert(params);
         if(num >= 0){
             return R.success("用户新增成功");
@@ -101,6 +100,13 @@ public class CommonController {
 
         return R.success("商品列表查询成功",list);
     }
+
+//    @ApiOperation(value = "农产品信息模糊查询接口",notes = "注意参数",httpMethod = "POST")
+//    @RequestMapping(value = "/getGoodsInfoBy")
+//    public R getGoodsInfo(@RequestBody int params) {
+//        GoodsInfo goodsInfo = goodsInfoMapper.selectById(params);
+//        return R.success("农产品信息查询成功",goodsInfo);
+//    }
 
     @ApiOperation(value = "农产品信息查询接口",notes = "注意参数",httpMethod = "POST")
     @RequestMapping(value = "/getGoodsInfo")
