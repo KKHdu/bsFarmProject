@@ -24,7 +24,7 @@ public class GoodsInfo {
     private double goodsPrice;
 
     @TableField("goods_sale")
-    private int goodsSale;
+    private String goodsSale;
 
     @TableField("goods_quality")
     private String goodsQuality;

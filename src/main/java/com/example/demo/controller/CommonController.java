@@ -120,12 +120,13 @@ public class CommonController {
             wrapper.eq("user_id",userId).like(StringUtils.isNotEmpty(goodsName),"goods_name", goodsName);
         }
         if(userRole== 3){
-            wrapper.eq("goods_sale",2).like(StringUtils.isNotEmpty(goodsName),"goods_name", goodsName);
+            wrapper.eq("goods_sale","在售").like(StringUtils.isNotEmpty(goodsName),"goods_name", goodsName);
         }
 
         List<GoodsInfo> list = goodsInfoMapper.selectList(wrapper);
 
-        return R.success("商品列表查询成功",list);
+
+        return R.success("农产品列表查询成功",list);
     }
 
 //    @ApiOperation(value = "农产品信息模糊查询接口",notes = "注意参数",httpMethod = "POST")
