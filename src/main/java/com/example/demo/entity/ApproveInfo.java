@@ -10,6 +10,8 @@ import lombok.Data;
 @TableName("farm_approve")
 public class ApproveInfo {
 
+    private int userId;
+
     @TableId
     @TableField("approve_id")
     private int approveId;

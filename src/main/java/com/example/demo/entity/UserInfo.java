@@ -41,5 +41,5 @@ public class UserInfo {
     @TableLogic
     @JsonIgnore
     @TableField("user_deleted")
-    private String userDeleted;
+    private int userDeleted;
 }

@@ -7,16 +7,16 @@ import lombok.Data;
 
 @Data
 @TableName("farm_role")
-public class Role {
+public class RoleInfo {
 
     @TableId
     @TableField("role_id")
     private int roleId;
 
     @TableField("role_code")
-    private int roleCode;
+    private String roleCode;
 
     @TableField("role_label")
-    private int roleLabel;
+    private String roleLabel;
 
 }
