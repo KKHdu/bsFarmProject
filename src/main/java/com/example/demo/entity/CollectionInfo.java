@@ -27,7 +27,7 @@ public class CollectionInfo {
     private int userName;
 
     @TableField("collection_status")
-    private int collectionStatus;
+    private String collectionStatus;
 
 
     @TableField(value="insert_time", fill= FieldFill.INSERT)
