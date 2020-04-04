@@ -6,7 +6,6 @@ import com.example.demo.config.R;
 import com.example.demo.entity.ApproveInfo;
 import com.example.demo.entity.CollectionInfo;
 import com.example.demo.entity.DealInfo;
-import com.example.demo.mapper.CollectionMapper;
 import com.example.demo.mapper.CollectionInfoMapper;
 import com.example.demo.mapper.DealInfoMapper;
 
@@ -21,15 +20,13 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/custom")
 @AllArgsConstructor
 public class CustomController {
 
     private DealInfoMapper dealInfoMapper;
 
     private CollectionInfoMapper collectionInfoMapper;
-
-    private CollectionMapper collectionMapper;
 
     @ApiOperation(value = "订单新增接口",notes = "注意参数",httpMethod = "POST")
     @RequestMapping(value = "/dealAdd")
@@ -49,14 +46,14 @@ public class CustomController {
     @ApiOperation(value = "查询购物车列表",notes = "注意参数",httpMethod = "POST")
     @RequestMapping(value = "/getCollectionInfo")
     public R getCollectionInfo(@RequestBody int params) {
-        List<JSONObject> list = collectionMapper.selectListById(params);
+        List<JSONObject> list = collectionInfoMapper.selectListById(params);
         return R.success("农产品信息查询成功",list);
     }
 
     @ApiOperation(value = "购物车新增",notes = "注意参数",httpMethod = "POST")
     @RequestMapping(value = "/collectionAdd")
     public R collectionAdd(@RequestBody CollectionInfo params) {
-        int num = collectionMapper.insert(params);
+        int num = collectionInfoMapper.insert(params);
         return R.success("成功加入购物车");
     }
 

@@ -40,7 +40,6 @@ public class AspectJAdvice {
         String classNameFull = joinPoint.getTarget().getClass().getName();
         String className = classNameFull.substring((classNameFull.lastIndexOf(".")+1),classNameFull.length());
         String actionName = joinPoint.getSignature().getName();
-//        System.out.println(className+"+++"+actionName);
 
         Object[] args = joinPoint.getArgs();
         JSONObject json = new JSONObject();
@@ -50,6 +49,7 @@ public class AspectJAdvice {
 //                System.out.println(arg);
 //            }
         }
+        System.out.println(json);
         // 业务逻辑最好拿到service里面封装一下
         UserInfo userInfo = userInfoMapper.selectById(json.getString("userId"));
         if(userInfo != null){

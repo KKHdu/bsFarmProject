@@ -2,15 +2,14 @@ package com.example.demo.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.example.demo.config.R;
 import com.example.demo.entity.DealInfo;
 import com.example.demo.entity.GoodsInfo;
-import com.example.demo.entity.User;
 import com.example.demo.entity.UserInfo;
 import com.example.demo.mapper.DealInfoMapper;
 import com.example.demo.mapper.GoodsInfoMapper;
 import com.example.demo.mapper.UserInfoMapper;
-import com.example.demo.mapper.UserMapper;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -114,14 +113,14 @@ public class CommonController {
         String goodsName = params.getString("goodsName");
         int userRole = userInfoMapper.selectById(userId).getUserRole();
         QueryWrapper<GoodsInfo> wrapper = new QueryWrapper<>();
-        if(userRole== 2 && goodsName == null){
-            wrapper.eq("user_id",userId);
+        if(userRole== 1){
+            wrapper.like(StringUtils.isNotEmpty(goodsName),"goods_name", goodsName);
         }
-        if(userRole== 2 && goodsName != null){
-            wrapper.eq("user_id",userId).like("goods_name", goodsName);
+        if(userRole== 2){
+            wrapper.eq("user_id",userId).like(StringUtils.isNotEmpty(goodsName),"goods_name", goodsName);
         }
-        if(userRole== 3 && goodsName != null){
-            wrapper.like("goods_name", goodsName);
+        if(userRole== 3){
+            wrapper.eq("goods_sale",2).like(StringUtils.isNotEmpty(goodsName),"goods_name", goodsName);
         }
 
         List<GoodsInfo> list = goodsInfoMapper.selectList(wrapper);
@@ -150,7 +149,7 @@ public class CommonController {
     @RequestMapping(value = "/getDealList")
     public R geOrderList(@RequestBody JSONObject params) {
         int userId = params.getInteger("userId");
-        int userRole = params.getInteger("userRole");
+        int userRole = userInfoMapper.selectById(userId).getUserRole();
         QueryWrapper<DealInfo> wrapper = new QueryWrapper<>();
         if(userRole == 3){
             // 表示为顾客查询订单
