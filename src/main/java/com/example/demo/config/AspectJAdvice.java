@@ -49,7 +49,7 @@ public class AspectJAdvice {
 //                System.out.println(arg);
 //            }
         }
-        System.out.println(json);
+
         // 业务逻辑最好拿到service里面封装一下
         UserInfo userInfo = userInfoMapper.selectById(json.getString("userId"));
         if(userInfo != null){
@@ -63,6 +63,8 @@ public class AspectJAdvice {
             }else{
                 throw new AuthorityException("你的权限不足！");
             }
+        }else{
+            throw new AuthorityException("你的权限不足！");
         }
     }
 

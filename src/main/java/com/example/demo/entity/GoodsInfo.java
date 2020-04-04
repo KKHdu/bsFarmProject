@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import lombok.Data;
 
 @Data
@@ -33,7 +34,10 @@ public class GoodsInfo {
     private String goodsImage;
 
     @TableField("goods_owns")
-    private String goodsOwns;
+    private int goodsOwns;
+
+    @TableField(exist = false)
+    private String goodsOwnsName;
 
     @TableField(value="insert_time", fill=FieldFill.INSERT)
     private Long insertTime;

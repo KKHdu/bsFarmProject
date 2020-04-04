@@ -3,6 +3,7 @@ package com.example.demo.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.example.demo.config.R;
 
 import com.example.demo.entity.ApproveInfo;
@@ -39,7 +40,7 @@ public class AdminController {
         String userName = params.getString("userName");
         QueryWrapper<UserInfo> wrapper = new QueryWrapper<>();
         wrapper.select(UserInfo.class,info -> !info.getColumn().equals("user_pass"))
-                .eq("user_role",roleType);
+                .eq("user_role",roleType).like(StringUtils.isNotEmpty(userName),"user_name",userName);
         List<UserInfo> customList = userInfoMapper.selectList(wrapper);
         if(customList != null){
             return R.success("数据显示成功",customList);

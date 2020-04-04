@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/common")
@@ -114,7 +115,7 @@ public class CommonController {
         int userRole = userInfoMapper.selectById(userId).getUserRole();
         QueryWrapper<GoodsInfo> wrapper = new QueryWrapper<>();
         if(userRole== 1){
-            wrapper.like(StringUtils.isNotEmpty(goodsName),"goods_name", goodsName);
+            wrapper.like(StringUtils.isNotEmpty(goodsName),"good_name",goodsName);
         }
         if(userRole== 2){
             wrapper.eq("user_id",userId).like(StringUtils.isNotEmpty(goodsName),"goods_name", goodsName);
@@ -124,6 +125,22 @@ public class CommonController {
         }
 
         List<GoodsInfo> list = goodsInfoMapper.selectList(wrapper);
+//        List<Integer> IdList = list.stream().map(GoodsInfo::getGoodsOwns).collect(Collectors.toList());
+//        QueryWrapper wrapperUser = new QueryWrapper();
+//        wrapperUser.in("user_id",IdList);
+//        List<UserInfo> userList = userInfoMapper.selectList(wrapperUser);
+//
+//        List<GoodsInfo> listRedo = list.stream()
+//                .map(item -> {
+//                    userList.stream().forEach(item2 -> {
+//                        if(item.getGoodsOwns() == item2.getUserId()){
+//                            item.setGoodsOwnsName(item2.getUserName());
+//                        }
+//                    });
+//                    return item;
+//                })
+//                .collect(Collectors.toList());
+
 
         return R.success("商品列表查询成功",list);
     }
@@ -149,6 +166,7 @@ public class CommonController {
     @RequestMapping(value = "/getDealList")
     public R geOrderList(@RequestBody JSONObject params) {
         int userId = params.getInteger("userId");
+        int goodsName = params.getInteger("goodsName");
         int userRole = userInfoMapper.selectById(userId).getUserRole();
         QueryWrapper<DealInfo> wrapper = new QueryWrapper<>();
         if(userRole == 3){
