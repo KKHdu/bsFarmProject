@@ -31,9 +31,6 @@ public class CustomController {
     @ApiOperation(value = "订单新增接口",notes = "注意参数",httpMethod = "POST")
     @RequestMapping(value = "/dealAdd")
     public R geList(@RequestBody DealInfo params) {
-        if(params.getDealUserNameIn() == null){
-            return R.error("顾客用户名为空，新增失败");
-        }
         int numOne = dealInfoMapper.insert(params);
         if(numOne >= 0){
             return R.success("订单新增成功");
@@ -70,7 +67,6 @@ public class CustomController {
         }else{
             return R.error("购物车状态更新失败");
         }
-
     }
 
 }

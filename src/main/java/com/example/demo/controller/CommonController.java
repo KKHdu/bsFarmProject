@@ -132,17 +132,15 @@ public class CommonController {
         List<UserInfo> userList = userInfoMapper.selectList(wrapperUser);
 
         List<GoodsInfo> listRedo = list.stream()
-                .map(item -> {
-                    userList.stream().forEach(item2 -> {
-                        if(item.getGoodsOwns() == item2.getUserId()){
-                            item.setGoodsOwnsName(item2.getUserName());
-                        }
-                    });
-                    return item;
-                })
-                .collect(Collectors.toList());
-
-
+                                        .map(item -> {
+                                            userList.stream().forEach(item2 -> {
+                                                if(item.getGoodsOwns() == item2.getUserId()){
+                                                    item.setGoodsOwnsName(item2.getUserName());
+                                                }
+                                            });
+                                            return item;
+                                        })
+                                        .collect(Collectors.toList());
 
         return R.success("农产品列表查询成功",listRedo);
     }
