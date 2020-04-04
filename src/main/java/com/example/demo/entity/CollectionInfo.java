@@ -29,7 +29,6 @@ public class CollectionInfo {
     @TableField("collection_status")
     private String collectionStatus;
 
-
     @TableField(value="insert_time", fill= FieldFill.INSERT)
     private long insertTime;
 
