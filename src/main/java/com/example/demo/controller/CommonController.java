@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.example.demo.config.NewAnnotation;
 import com.example.demo.config.R;
 import com.example.demo.entity.DealInfo;
 import com.example.demo.entity.GoodsInfo;
@@ -118,7 +119,7 @@ public class CommonController {
             wrapper.like(StringUtils.isNotEmpty(goodsName),"goods_name",goodsName);
         }
         if(userRole== 2){
-            wrapper.eq("user_id",userId).like(StringUtils.isNotEmpty(goodsName),"goods_name", goodsName);
+            wrapper.eq("goods_owns",userId).like(StringUtils.isNotEmpty(goodsName),"goods_name", goodsName);
         }
         if(userRole== 3){
             wrapper.eq("goods_sale","在售").like(StringUtils.isNotEmpty(goodsName),"goods_name", goodsName);
@@ -127,7 +128,7 @@ public class CommonController {
         List<GoodsInfo> list = goodsInfoMapper.selectList(wrapper);
         List<Integer> IdList = list.stream().map(GoodsInfo::getGoodsOwns).collect(Collectors.toList());
         QueryWrapper wrapperUser = new QueryWrapper();
-        wrapperUser.in("user_id",IdList);
+        wrapperUser.in(IdList.size()>0,"user_id",IdList);
         List<UserInfo> userList = userInfoMapper.selectList(wrapperUser);
 
         List<GoodsInfo> listRedo = list.stream()

@@ -45,21 +45,28 @@ public class AspectJAdvice {
         }
 
 //        System.out.println(json.getString("userId"));
+        System.out.println("-----"+className);
         // 业务逻辑最好拿到service里面封装一下
         UserInfo userInfo = userInfoMapper.selectById(json.getString("userId"));
-        if(userInfo != null){
-            System.out.println(userInfo.getUserRole());
-            if(userInfo.getUserRole() == 1 || "CommonController".equals(className) && "AdminController".equals(className)){
-                // 管理员权限
-            }else if(userInfo.getUserRole() == 2 && "FarmerController".equals(className)){
-                // 农户权限
-            }else if(userInfo.getUserRole() == 3 && "CustomController".equals(className)){
-                // 顾客权限
+        if("login".equals(actionName)){
+            // 登陆不拦截
+        }else{
+            if(userInfo != null){
+                System.out.println(userInfo.getUserRole());
+                if(userInfo.getUserRole() == 1 || "CommonController".equals(className)){
+                    // 管理员权限
+                }else if(userInfo.getUserRole() == 1 && "AdminController".equals(className)){
+                    // 管理员权限
+                }else if(userInfo.getUserRole() == 2 && "FarmerController".equals(className)){
+                    // 农户权限
+                }else if(userInfo.getUserRole() == 3 && "CustomController".equals(className)){
+                    // 顾客权限
+                }else{
+                    throw new AuthorityException("你的权限不足！");
+                }
             }else{
                 throw new AuthorityException("你的权限不足！");
             }
-        }else{
-            throw new AuthorityException("你的权限不足！");
         }
     }
 

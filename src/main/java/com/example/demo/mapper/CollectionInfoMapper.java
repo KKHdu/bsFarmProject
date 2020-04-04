@@ -13,6 +13,6 @@ public interface CollectionInfoMapper extends BaseMapper<CollectionInfo> {
             "from farm_collection a\n" +
             "left join farm_goods_info b\n" +
             "on a.goods_id = b.goods_id\n" +
-            "where a.user_id = #{id} and a.collection_status = 0")
+            "where a.user_id = #{id} and a.collection_status = '在售")
     List<JSONObject> selectListById(int id);
 }
