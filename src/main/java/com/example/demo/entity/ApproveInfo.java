@@ -10,6 +10,7 @@ import lombok.Data;
 @TableName("farm_approve")
 public class ApproveInfo {
 
+    @TableField(exist = false)
     private int userId;
 
     @TableId
@@ -23,7 +24,7 @@ public class ApproveInfo {
     private int goodsId;
 
     @TableField("approve_result")
-    private int approveResult;
+    private String approveResult;
 
     @TableField("approve_desc")
     private String approveDesc;

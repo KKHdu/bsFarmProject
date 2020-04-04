@@ -115,7 +115,7 @@ public class CommonController {
         int userRole = userInfoMapper.selectById(userId).getUserRole();
         QueryWrapper<GoodsInfo> wrapper = new QueryWrapper<>();
         if(userRole== 1){
-            wrapper.like(StringUtils.isNotEmpty(goodsName),"good_name",goodsName);
+            wrapper.like(StringUtils.isNotEmpty(goodsName),"goods_name",goodsName);
         }
         if(userRole== 2){
             wrapper.eq("user_id",userId).like(StringUtils.isNotEmpty(goodsName),"goods_name", goodsName);
@@ -125,25 +125,25 @@ public class CommonController {
         }
 
         List<GoodsInfo> list = goodsInfoMapper.selectList(wrapper);
-//        List<Integer> IdList = list.stream().map(GoodsInfo::getGoodsOwns).collect(Collectors.toList());
-//        QueryWrapper wrapperUser = new QueryWrapper();
-//        wrapperUser.in("user_id",IdList);
-//        List<UserInfo> userList = userInfoMapper.selectList(wrapperUser);
-//
-//        List<GoodsInfo> listRedo = list.stream()
-//                .map(item -> {
-//                    userList.stream().forEach(item2 -> {
-//                        if(item.getGoodsOwns() == item2.getUserId()){
-//                            item.setGoodsOwnsName(item2.getUserName());
-//                        }
-//                    });
-//                    return item;
-//                })
-//                .collect(Collectors.toList());
+        List<Integer> IdList = list.stream().map(GoodsInfo::getGoodsOwns).collect(Collectors.toList());
+        QueryWrapper wrapperUser = new QueryWrapper();
+        wrapperUser.in("user_id",IdList);
+        List<UserInfo> userList = userInfoMapper.selectList(wrapperUser);
+
+        List<GoodsInfo> listRedo = list.stream()
+                .map(item -> {
+                    userList.stream().forEach(item2 -> {
+                        if(item.getGoodsOwns() == item2.getUserId()){
+                            item.setGoodsOwnsName(item2.getUserName());
+                        }
+                    });
+                    return item;
+                })
+                .collect(Collectors.toList());
 
 
 
-        return R.success("农产品列表查询成功",list);
+        return R.success("农产品列表查询成功",listRedo);
     }
 
 //    @ApiOperation(value = "农产品信息模糊查询接口",notes = "注意参数",httpMethod = "POST")

@@ -10,6 +10,7 @@ import lombok.Data;
 @TableName("farm_deal_info")
 public class DealInfo {
 
+    @TableField(exist = false)
     private int userId;
 
     @TableId

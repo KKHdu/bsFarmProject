@@ -9,6 +9,7 @@ import lombok.Data;
 //@KeySequence("goods_id")
 public class GoodsInfo {
 
+    @TableField(exist = false)
     private int userId;
 
     @TableId
