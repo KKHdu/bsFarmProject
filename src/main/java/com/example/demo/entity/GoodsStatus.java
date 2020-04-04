@@ -14,6 +14,6 @@ public class GoodsStatus {
     private int goodsStatusCode;
 
     @TableField("goods_status_label")
-    private int goodsStatusLabel;
+    private String goodsStatusLabel;
 
 }

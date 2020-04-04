@@ -1,15 +1,10 @@
 package com.example.demo.controller;
 
-import com.alibaba.fastjson.JSONObject;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.example.demo.config.NewAnnotation;
 import com.example.demo.config.R;
 import com.example.demo.entity.ApproveInfo;
 import com.example.demo.entity.GoodsInfo;
-import com.example.demo.entity.User;
 import com.example.demo.mapper.ApproveInfoMapper;
 import com.example.demo.mapper.GoodsInfoMapper;
-import com.example.demo.mapper.UserMapper;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;

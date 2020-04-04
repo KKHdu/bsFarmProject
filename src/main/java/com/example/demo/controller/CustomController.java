@@ -57,9 +57,12 @@ public class CustomController {
         return R.success("成功加入购物车");
     }
 
+    @Transactional
     @ApiOperation(value = "修改购物车状态",notes = "注意参数",httpMethod = "POST")
     @RequestMapping(value = "/updateCollectionStatus")
     public R updateCollectionStatus(@RequestBody CollectionInfo params) {
+        DealInfo dealInfo = new DealInfo();
+        int collectionStatus = params.getCollectionStatus();
 
         int num = collectionInfoMapper.updateById(params);
         if(num >= 0){

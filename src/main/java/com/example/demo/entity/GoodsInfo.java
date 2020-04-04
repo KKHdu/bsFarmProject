@@ -7,6 +7,9 @@ import lombok.Data;
 @TableName("farm_goods_info")
 //@KeySequence("goods_id")
 public class GoodsInfo {
+
+    private int userId;
+
     @TableId
     @TableField("goods_id")
     private int goodsId;
@@ -33,7 +36,10 @@ public class GoodsInfo {
     private String goodsImage;
 
     @TableField("goods_owns")
-    private String goodsOwns;
+    private int goodsOwns;
+
+    @TableField("goods_sum")
+    private int goodsSum;
 
     @TableField(value="insert_time", fill=FieldFill.INSERT)
     private Long insertTime;
