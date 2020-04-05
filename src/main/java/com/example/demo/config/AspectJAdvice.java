@@ -44,7 +44,7 @@ public class AspectJAdvice {
 //            }
         }
 
-//        System.out.println(json.getString("userId"));
+        System.out.println(json.getString("userId"));
         System.out.println("-----"+className);
         // 业务逻辑最好拿到service里面封装一下
         UserInfo userInfo = userInfoMapper.selectById(json.getString("userId"));

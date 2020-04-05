@@ -17,7 +17,7 @@ public class CollectionInfo {
     @TableField("goods_id")
     private int goodsId;
 
-    @TableField("goodsName")
+    @TableField("goods_name")
     private String goodsName;
 
     @TableField("user_id")

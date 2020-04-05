@@ -39,7 +39,7 @@ public class DealInfo {
     private double dealPrice;
 
     @TableField("deal_status")
-    private int dealStatus;
+    private String dealStatus;
 
     @TableField(value="insert_time", fill= FieldFill.INSERT)
     private Long insertTime;
