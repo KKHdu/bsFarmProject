@@ -58,7 +58,7 @@ public class CustomController {
         int userRole = userInfoMapper.selectById(userId).getUserRole();
 
         QueryWrapper<GoodsInfo> wrapperGos = new QueryWrapper<>();
-        wrapperGos.like("goods_name",goodsName);
+        wrapperGos.like(StringUtils.isNotEmpty(goodsName),"goods_name", goodsName);
         List<GoodsInfo> goodsInfoList = goodsInfoMapper.selectList(wrapperGos);
         List<Integer> goodsIdList = goodsInfoList.stream().map(GoodsInfo::getGoodsId).collect(Collectors.toList());
 
