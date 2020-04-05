@@ -20,6 +20,9 @@ public class DealInfo {
     @TableField("goods_id")
     private int goodsId;
 
+    @TableField(exist = false)
+    private String goodsName;
+
     @TableField("goods_count")
     private int goodsCount;
 

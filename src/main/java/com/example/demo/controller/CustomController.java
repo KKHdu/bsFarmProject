@@ -1,7 +1,10 @@
 package com.example.demo.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import com.example.demo.mapper.GoodsInfoMapper;
+import com.example.demo.mapper.UserInfoMapper;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +31,10 @@ public class CustomController {
 
     private DealInfoMapper dealInfoMapper;
 
+    private UserInfoMapper userInfoMapper;
+
+    private GoodsInfoMapper goodsInfoMapper;
+
     private CollectionInfoMapper collectionInfoMapper;
 
     @ApiOperation(value = "订单新增接口",notes = "注意参数",httpMethod = "POST")
@@ -48,11 +55,25 @@ public class CustomController {
     public R getDealInfo(@RequestBody JSONObject params) {
     	String userId = params.getString("userId");
         String goodsName = params.getString("goodsName");
+        int userRole = userInfoMapper.selectById(userId).getUserRole();
+
+        QueryWrapper<GoodsInfo> wrapperGos = new QueryWrapper<>();
+        wrapperGos.like("goods_name",goodsName);
+        List<GoodsInfo> goodsInfoList = goodsInfoMapper.selectList(wrapperGos);
+        List<Integer> goodsIdList = goodsInfoList.stream().map(GoodsInfo::getGoodsId).collect(Collectors.toList());
+
     	QueryWrapper<DealInfo> wrapper = new QueryWrapper<>();
-    	if(StringUtils.isNotEmpty(userId)) {
-    		 wrapper.eq("deal_user_id_in", userId)
-                     .like(StringUtils.isNotEmpty(goodsName),"goods_name", goodsName);
-    	}
+        if(userRole == 3){
+            // 用户查已购
+                wrapper.eq("deal_user_id_in", userId)
+                        .in("goods_id",goodsIdList);
+        }else if(userRole == 2){
+//            商家查已售
+            wrapper.eq("deal_user_id_out", userId)
+                    .in("goods_id",goodsIdList);
+//                    .like(StringUtils.isNotEmpty(goodsName),"goods_name", goodsName);
+        }
+
         List<DealInfo> list = dealInfoMapper.selectList(wrapper);
         if(list != null) {
         	return R.success("订单信息查询成功",list);
