@@ -47,9 +47,11 @@ public class CustomController {
     @RequestMapping(value = "/getDealInfo")
     public R getDealInfo(@RequestBody JSONObject params) {
     	String userId = params.getString("userId");
+        String goodsName = params.getString("goodsName");
     	QueryWrapper<DealInfo> wrapper = new QueryWrapper<>();
     	if(StringUtils.isNotEmpty(userId)) {
-    		 wrapper.like(StringUtils.isNotEmpty(userId),"user_id", userId);
+    		 wrapper.eq("deal_user_id_in", userId)
+                     .like(StringUtils.isNotEmpty(goodsName),"goods_name", goodsName);
     	}
         List<DealInfo> list = dealInfoMapper.selectList(wrapper);
         if(list != null) {
