@@ -116,7 +116,8 @@ public class CommonController {
         int userRole = userInfoMapper.selectById(userId).getUserRole();
         QueryWrapper<GoodsInfo> wrapper = new QueryWrapper<>();
         if(userRole== 1){
-            wrapper.like(StringUtils.isNotEmpty(goodsName),"goods_name",goodsName);
+            wrapper.eq("goods_sale","审批中")
+                    .like(StringUtils.isNotEmpty(goodsName),"goods_name",goodsName);
         }
         if(userRole== 2){
             wrapper.eq("goods_owns",userId).like(StringUtils.isNotEmpty(goodsName),"goods_name", goodsName);
