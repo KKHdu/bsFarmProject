@@ -8,3 +8,12 @@ spring:
     url: jdbc:mysql://101.132.71.122:3306/farm20200330?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=UTF-8&useSSL=false
     username: kk
     password: ZXCVBNM
+
+mybatis-plus:
+  global-config:
+    db-config:
+#      field-strategy=ignored
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+  configuration:
+    call-setters-on-nulls: true

@@ -60,6 +60,7 @@ public class FarmerController {
     @ApiOperation(value = "农产品信息更新接口",notes = "注意参数",httpMethod = "POST")
     @RequestMapping(value = "/goodsInfoUpdate")
     public R goodsInfoUpdate(@RequestBody GoodsInfo params) {
+        params.setGoodsOwns(params.getUserId());
         int num = goodsInfoMapper.updateById(params);
         if(num > 0){
             return R.success("农产品信息更新成功");
