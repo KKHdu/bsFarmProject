@@ -41,6 +41,9 @@ public class CustomController {
     @RequestMapping(value = "/dealAdd")
     public R geList(@RequestBody DealInfo params) {
     	System.out.println(params);
+    	int goodsId = params.getGoodsId();
+    	int farmerId =  goodsInfoMapper.selectById(goodsId).getGoodsOwns();
+    	params.setDealUserIdOut(farmerId);
         int numOne = dealInfoMapper.insert(params);
         if(numOne >= 0){
             return R.success("订单新增成功");
@@ -50,38 +53,7 @@ public class CustomController {
 
     }
 
-    @ApiOperation(value = "查询订单列表",notes = "注意参数",httpMethod = "POST")
-    @RequestMapping(value = "/getDealInfo")
-    public R getDealInfo(@RequestBody JSONObject params) {
-    	String userId = params.getString("userId");
-        String goodsName = params.getString("goodsName");
-        int userRole = userInfoMapper.selectById(userId).getUserRole();
 
-        QueryWrapper<GoodsInfo> wrapperGos = new QueryWrapper<>();
-        wrapperGos.like(StringUtils.isNotEmpty(goodsName),"goods_name", goodsName);
-        List<GoodsInfo> goodsInfoList = goodsInfoMapper.selectList(wrapperGos);
-        List<Integer> goodsIdList = goodsInfoList.stream().map(GoodsInfo::getGoodsId).collect(Collectors.toList());
-
-    	QueryWrapper<DealInfo> wrapper = new QueryWrapper<>();
-        if(userRole == 3){
-            // 用户查已购
-                wrapper.eq("deal_user_id_in", userId)
-                        .in("goods_id",goodsIdList);
-        }else if(userRole == 2){
-//            商家查已售
-            wrapper.eq("deal_user_id_out", userId)
-                    .in("goods_id",goodsIdList);
-//                    .like(StringUtils.isNotEmpty(goodsName),"goods_name", goodsName);
-        }
-
-        List<DealInfo> list = dealInfoMapper.selectList(wrapper);
-        if(list != null) {
-        	return R.success("订单信息查询成功",list);
-        }else {
-        	return R.success("订单信息查询失败");
-        }
-        
-    }
     
     @ApiOperation(value = "查询购物车列表",notes = "注意参数",httpMethod = "POST")
     @RequestMapping(value = "/getCollectionInfo")
